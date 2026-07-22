@@ -1,0 +1,21 @@
+{
+  "name": "Crow v2.001 XRPL Testnet",
+  "short_name": "Crow v2.001",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#01040b",
+  "theme_color": "#020817",
+  "description": "A futuristic XRPL Testnet escrow development laboratory.",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

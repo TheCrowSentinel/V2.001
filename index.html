@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#020817">
+  <meta name="description" content="Crow v2.001 — an XRPL Testnet escrow development prototype.">
+  <title>Crow v2.001 | XRPL Testnet</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="particleField" aria-hidden="true"></canvas>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="geometry geometry-a" aria-hidden="true"></div>
+  <div class="geometry geometry-b" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="identity" href="#home" aria-label="Crow home">
+      <span class="logo-shell"><img src="assets/crow-logo-96.png" alt="Crow cyber shield"></span>
+      <span>
+        <strong>CROW</strong>
+        <small>CONFIDENCE BEFORE COMMITMENT</small>
+      </span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#home">Home</a>
+      <a href="#features">System</a>
+      <a href="#escrowLab">Escrow Lab</a>
+      <a href="#security">Security</a>
+    </nav>
+    <button class="neon-button compact" id="launchButton">Launch Testnet Lab</button>
+  </header>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-copy hud-panel">
+        <p class="eyebrow"><span class="pulse-dot"></span> XRPL TESTNET PROTOTYPE</p>
+        <h1>Before You Pay...<span>Pay with Crow.</span></h1>
+        <p class="lead">A radiant transaction-security interface built around transparent, user-authorized XRPL escrow workflows.</p>
+        <div class="hero-actions">
+          <button class="neon-button" data-scroll="#escrowLab">Enter Escrow Lab</button>
+          <button class="ghost-button" id="summonGuide">Summon Crow Guide</button>
+        </div>
+        <div class="trust-strip">
+          <span>NON-CUSTODIAL DESIGN</span>
+          <span>TESTNET ONLY</span>
+          <span>VALIDATED LEDGER DATA</span>
+        </div>
+      </div>
+
+      <div class="hero-core" aria-label="Crow cyber trust engine">
+        <div class="portal portal-outer"></div>
+        <div class="portal portal-mid"></div>
+        <div class="portal portal-inner"></div>
+        <div class="mascot-aura"></div>
+        <img class="mascot" src="assets/crow-cyber-mark.png" alt="Futuristic cyber crow shield">
+        <div class="core-readout">
+          <strong>CYBER TRUST ENGINE</strong>
+          <span id="heroNetwork">NETWORK STANDBY</span>
+        </div>
+        <div class="orbit orbit-one"><i></i><i></i><i></i></div>
+        <div class="orbit orbit-two"><i></i><i></i></div>
+      </div>
+
+      <aside class="network-card hud-panel">
+        <div class="panel-title"><span>LIVE XRPL TELEMETRY</span><b id="networkLamp">OFFLINE</b></div>
+        <dl>
+          <div><dt>Environment</dt><dd>Testnet</dd></div>
+          <div><dt>Ledger</dt><dd id="ledgerIndex">—</dd></div>
+          <div><dt>Base fee</dt><dd id="baseFee">—</dd></div>
+          <div><dt>Server</dt><dd id="serverVersion">—</dd></div>
+          <div><dt>Latency</dt><dd id="latency">—</dd></div>
+        </dl>
+        <button class="ghost-button full" id="connectNetwork">Connect to XRPL Testnet</button>
+      </aside>
+    </section>
+
+    <section class="metrics section" id="features">
+      <article class="metric-card"><span class="metric-icon">◇</span><h3>Secure Escrow</h3><p>Build and test native time-based EscrowCreate, EscrowFinish, and EscrowCancel transactions.</p></article>
+      <article class="metric-card"><span class="metric-icon">◎</span><h3>Ledger Proof</h3><p>Display validated transaction hashes, account activity, balances, and ledger information.</p></article>
+      <article class="metric-card"><span class="metric-icon">ϟ</span><h3>Low-Friction Test Lab</h3><p>Generate and fund a disposable Testnet account without exposing any Mainnet credentials.</p></article>
+      <article class="metric-card"><span class="metric-icon">⌬</span><h3>User Authorization</h3><p>Every write action requires an explicit confirmation and presents the transaction details first.</p></article>
+    </section>
+
+    <section class="lab section" id="escrowLab">
+      <div class="section-heading">
+        <p class="eyebrow">CROW v2.001</p>
+        <h2>XRPL Escrow Laboratory</h2>
+        <p>Real Testnet transactions. No real XRP. Never enter a Mainnet seed into this website.</p>
+      </div>
+
+      <div class="lab-grid">
+        <article class="console hud-panel">
+          <div class="panel-title"><span>01 / TEST WALLET</span><b id="walletState">NOT CREATED</b></div>
+          <p>Create a temporary XRPL Testnet account and fund it through the public faucet.</p>
+          <button class="neon-button full" id="createWallet">Create & Fund Test Wallet</button>
+          <div class="data-box">
+            <label>Testnet address</label>
+            <div class="copy-row"><code id="walletAddress">—</code><button data-copy="walletAddress">Copy</button></div>
+            <label>Testnet balance</label>
+            <strong id="walletBalance">— XRP</strong>
+          </div>
+          <details class="seed-vault">
+            <summary>Reveal temporary Testnet seed</summary>
+            <p>This seed controls only the disposable Testnet wallet created in this browser session. Never paste a real wallet seed here.</p>
+            <div class="copy-row"><code id="walletSeed">—</code><button data-copy="walletSeed">Copy</button></div>
+          </details>
+        </article>
+
+        <article class="console hud-panel">
+          <div class="panel-title"><span>02 / CREATE ESCROW</span><b>TIME-BASED</b></div>
+          <form id="escrowForm">
+            <label>Destination Testnet address
+              <input id="destination" autocomplete="off" placeholder="r...">
+            </label>
+            <div class="two-col">
+              <label>Amount (XRP)
+                <input id="amount" type="number" min="1" step="0.000001" value="1">
+              </label>
+              <label>Finish delay (seconds)
+                <input id="finishDelay" type="number" min="30" value="90">
+              </label>
+            </div>
+            <label>Cancel window (minutes)
+              <input id="cancelDelay" type="number" min="2" value="30">
+            </label>
+            <button class="neon-button full" type="submit">Review EscrowCreate</button>
+          </form>
+          <div class="data-box">
+            <label>Latest escrow sequence</label><strong id="offerSequence">—</strong>
+            <label>Latest transaction hash</label>
+            <div class="copy-row"><code id="latestHash">—</code><button data-copy="latestHash">Copy</button></div>
+          </div>
+        </article>
+
+        <article class="console hud-panel">
+          <div class="panel-title"><span>03 / MANAGE ESCROW</span><b>OWNER + SEQUENCE</b></div>
+          <label>Escrow owner address
+            <input id="escrowOwner" placeholder="r...">
+          </label>
+          <label>Offer sequence
+            <input id="manageSequence" type="number" min="1" placeholder="Transaction sequence">
+          </label>
+          <div class="two-col">
+            <button class="neon-button" id="finishEscrow">Finish Escrow</button>
+            <button class="danger-button" id="cancelEscrow">Cancel Escrow</button>
+          </div>
+          <p class="microcopy">Finish succeeds only after FinishAfter. Cancel succeeds only after CancelAfter. Ledger rules—not this interface—decide whether the transaction is valid.</p>
+        </article>
+
+        <article class="console hud-panel transaction-console">
+          <div class="panel-title"><span>04 / VALIDATED ACTIVITY</span><button class="text-button" id="refreshHistory">Refresh</button></div>
+          <div id="history" class="history"><p class="empty">Connect and create a wallet to view account activity.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="security section" id="security">
+      <div class="section-heading"><p class="eyebrow">SECURE BY DESIGN</p><h2>Release Safety Boundaries</h2></div>
+      <div class="security-grid">
+        <article><strong>TESTNET LOCK</strong><p>The interface is hard-coded to XRPL Testnet. There is no Mainnet endpoint selector.</p></article>
+        <article><strong>SESSION-ONLY KEY</strong><p>The temporary Testnet wallet remains in memory and is not written to localStorage.</p></article>
+        <article><strong>NO CUSTODY CLAIM</strong><p>This prototype does not hold customer funds or promise dispute resolution.</p></article>
+        <article><strong>FINALITY CHECKS</strong><p>Write operations use submit-and-wait behavior and report validated results.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>CROW v2.001 • XRPL TESTNET DEVELOPMENT RELEASE</span>
+    <span>Prototype only • No real funds • No Mainnet seeds</span>
+  </footer>
+
+  <dialog id="confirmDialog">
+    <form method="dialog" class="dialog-card">
+      <p class="eyebrow">TRANSACTION AUTHORIZATION</p>
+      <h3 id="confirmTitle">Review transaction</h3>
+      <pre id="confirmPayload"></pre>
+      <p>This will submit a real transaction to XRPL Testnet using the temporary test wallet.</p>
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost-button">Cancel</button>
+        <button value="confirm" class="neon-button">Authorize Testnet Transaction</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="guide-layer" id="guideLayer" aria-hidden="true">
+    <button class="guide-close" id="closeGuide" aria-label="Close guide">×</button>
+    <div class="apparition">
+      <div class="apparition-rings"></div>
+      <img src="assets/crow-cyber-mark.png" alt="">
+    </div>
+    <div class="guide-panel hud-panel">
+      <p class="eyebrow">CROW INTELLIGENCE INTERFACE</p>
+      <h2>Crow Guide Online</h2>
+      <p id="guideMessage">I can explain the Testnet lab, escrow timing, transaction status, and the safety boundaries of this release.</p>
+      <div class="guide-prompts">
+        <button data-guide="wallet">How do I create a test wallet?</button>
+        <button data-guide="escrow">How does XRPL escrow work?</button>
+        <button data-guide="safety">Why is Mainnet locked?</button>
+        <button data-guide="status">Read system status</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/xrpl/build/xrpl-latest-min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
